@@ -23,6 +23,10 @@
 "oauth_error_message" = "authorise failed, you can try again later";
 "oauth_error_not_approved" = "authorise failed, for your app haven't approved or you haven't add your weibo uid to test accounts";
 
+"shareQQ_error" = "Error";
+"shareQQ_notInstall" = "Mobile QQ havn't be installed in your device";
+"shareQQ_openFail" = "Open Mobile QQ fail";
+
 "shareList_title" = "Share To";
 "shareEdit_title" = "Share To ";
 "shareEdit_post" = "Post";
@@ -35,10 +39,15 @@
 "shareEdit_delete_music" = "Delete Music";
 "shareEdit_error_not_empty" = "Post content can not be empty";
 "shareEdit_error_too_long" = "Post content's length too long";
-"shareEdit_error_auth_expired" = "authorization expired";
+"shareEdit_error_auth_expired" = "Post failed, for authorization expired";
 "shareEdit_error_auth_again" = "authorize again";
 "shareEdit_error_text_repeated" = "Text repeated";
 "shareEdit_error_user_baned" = "Sorry, you have been banned";
+"shareEdit_error_fail" = "Share fail";
+"shareEdit_error_no_auth" = "Share fail, for no upload picture authority";
+"shareEdit_error_empty_content" = "Share fail, for the content is empty";
+"shareEdit_C" = "符";
+"shareEdit_used" = "常";
 
 "share_wechat" = "Share to Wechat";
 "share_wechat_friend" = "Share to Wechat Friend";
@@ -72,6 +81,7 @@
 "commentEdit_noLocation_title" = "Location service have been turned off";
 "commentEdit_noLocation_message" = "Your device's location service have been turned off, please turn on it before you share your location";
 "commentEdit_title" = "New Comment";
+"commentEdit_wait" = "Please wait";
 
 "ego_pull_down" = "Pull down, refresh";
 "ego_refresh" = "Loose to refresh";
@@ -79,6 +89,8 @@
 "ego_pull_up" = "Pull up, load more";
 "ego_refreshing" = "Refreshing";
 "ego_loading_more" = "Loading more";
+
+"loading" = "Loading";
 
 "shareEdit_error_network_fail_message" = "Network Error";
 
@@ -102,6 +114,8 @@
 "wechat" = "Wechat";
 "email" = "Email";
 "sms" = "SMS";
+"wechat_session" = "Wechat";
 "wechat_timeline" = "Moments";
 "facebook" = "Facebook";
 "twitter" = "Twitter";
+"mobile_qq" = "QQ";

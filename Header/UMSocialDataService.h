@@ -15,12 +15,15 @@
 typedef enum {
     UMSResponseCodeSuccess            = 200,        //成功
     UMSResponseCodeBaned              = 505,        //用户被封禁
+    UMSResponseCodeFaild              = 510,        //发送失败（由于内容不符合要求或者其他原因）
+    UMSResponseCodeEmptyContent       = 5007,       //发送内容为空
     UMSResponseCodeShareRepeated      = 5016,       //分享内容重复
     UMSResponseCodeGetNoUidFromOauth  = 5020,       //授权之后没有得到用户uid
     UMSResponseCodeAccessTokenExpired = 5027,       //token过期
     UMSResponseCodeNetworkError       = 5050,       //网络错误
     UMSResponseCodeGetProfileFailed   = 5051,       //获取账户失败
-    UMSResponseCodeCancel             = 5052        //用户取消授权
+    UMSResponseCodeCancel             = 5052,        //用户取消授权
+    UMSResponseCodeNoApiAuthority     = 100031      //QQ空间应用没有在QQ互联平台上申请上传图片到相册的权限
 } UMSResponseCode;
 
 /**
@@ -74,23 +77,20 @@ typedef enum{
 @interface UMSocialResponseEntity : NSObject
 
 /**
- `UMSResponseCode`状态码,定义在`UMSocialEnum`
+ 代表发送结果，UMSResponseCodeSuccess代表成功，参看上面的定义
  
- @see `UMSocialEnum.h`
  */
 @property (nonatomic, assign) UMSResponseCode responseCode;
 
 /**
- 数据返回`UMSResponse`类型,定义在`UMSocialEnum`
+ 数据类型
  
- @see `UMSocialEnum.h`
  */
 @property (nonatomic, assign) UMSResponse responseType;
 
 /**
- 数据返回`UMViewControllerType`类型,定义在`UMSocialEnum`,如果是UI的回调函数，表示回调函数所在的页面
- 
- @see `UMSocialEnum.h`
+ 数据返回`UMViewControllerType`类型,如果是UI的回调函数，表示回调函数所在的页面
+
  */
 @property (nonatomic, assign) UMSViewControllerType viewControllerType;
 
@@ -201,32 +201,15 @@ typedef void (^UMSocialDataServiceCompletion)(UMSocialResponseEntity * response)
  */
 -(void)requestSocialDataWithCompletion:(UMSocialDataServiceCompletion)completion;
 
-///**
-// 发送微博内容到微博平台
-// 
-// @param platformType   分享到的平台名，在`UMSocialEnum.h`中定义好的字符串常量
-// @param content   分享的文字内容
-// @param image     分享的图片
-// @param location  分享的地理位置信息
-// @param completion 发送数据之后执行的block对象
-// 
-// */
-//- (void)postSNSWithType:(NSString *)platformType
-//                content:(NSString *)content
-//                  image:(UIImage *)image
-//               location:(CLLocation *)location
-//             completion:(UMSocialDataServiceCompletion)completion;
-
-
 /**
  发送微博内容到多个微博平台
  
- @param platformTypes 分享到的平台，数组的元素是`UMSocialEnum.h`定义的平台名的常量字符串，例如`UMShareToSina`，`UMShareToTencent`等。
- @param content   分享的文字内容
- @param image     分享的图片
- @param location  分享的地理位置信息
- @param urlResource  图片、音乐、视频等url资源
- @param completion 发送完成执行的block对象
+ @param platformTypes       分享到的平台，数组的元素是`UMSocialSnsPlatformManager.h`定义的平台名的常量字符串，例如`UMShareToSina`，`UMShareToTencent`等。
+ @param content             分享的文字内容
+ @param image               分享的图片
+ @param location            分享的地理位置信息
+ @param urlResource         图片、音乐、视频等url资源
+ @param completion          发送完成执行的block对象
  
  */
 - (void)postSNSWithTypes:(NSArray *)platformTypes
@@ -236,6 +219,25 @@ typedef void (^UMSocialDataServiceCompletion)(UMSocialResponseEntity * response)
              urlResource:(UMSocialUrlResource *)urlResource
               completion:(UMSocialDataServiceCompletion)completion;
 
+/**
+    发送微博内容到多个微博平台
+
+    @param platformTypes    分享到的平台，数组的元素是`UMSocialSnsPlatformManager.h`定义的平台名的常量字符串，例如`UMShareToSina`，`UMShareToTencent`等。
+    @param content          分享的文字内容
+    @param image            分享的图片
+    @param location         分享的地理位置信息
+    @param urlResource      图片、音乐、视频等url资源
+    @param completion       发送完成执行的block对象
+    @param presentedController 如果发送的平台微博只有一个并且没有授权，传入要授权的viewController，将弹出授权页面，进行授权。可以传nil，将不进行授权。
+ 
+ */
+- (void)postSNSWithTypes:(NSArray *)platformTypes
+                 content:(NSString *)content
+                   image:(UIImage *)image
+                location:(CLLocation *)location
+             urlResource:(UMSocialUrlResource *)urlResource
+     presentedController:(UIViewController *)presentedController
+              completion:(UMSocialDataServiceCompletion)completion;
 
 /**
  如果当前`UMSocialData`没有喜欢的话，发送喜欢，否则取消喜欢
@@ -261,7 +263,7 @@ typedef void (^UMSocialDataServiceCompletion)(UMSocialResponseEntity * response)
  @param image 评论并发送到微博的图片
  @param templateText 评论并发送到微博跟在微博正文后面用//分隔的文字
  @param location 评论的地理位置信息
- @param shareToSNS 评论并分享到微博平台，key为微博名，定义在`UMSocialEnum.h`中的`UMShareToSina`等，值为相应的usid
+ @param shareToSNS 评论并分享到微博平台，key为微博名，定义在`UMSocialSnsPlatformManager.h`中的`UMShareToSina`等，值为相应的usid
  @param completion 获取到数据之后执行的block对象
  
  */
@@ -286,7 +288,7 @@ typedef void (^UMSocialDataServiceCompletion)(UMSocialResponseEntity * response)
 ///---------------------------------------
 
 /**
- 请求获取用户微博账号的数据，获取到的用户数据在回调函数获得，也可以通过已经保存在本地并且更新的`socialData`属性的`soicalAccount`属性来获得
+ 请求获取用户微博账号的数据，获取到的用户数据在回调函数获得，也可以通过已经保存在本地并且更新的`socialData`属性的`socialAccount`属性来获得
  @param completion 获取到数据之后执行的block对象，此block对象的形参带啊有请求的用户账号数据
  
  */

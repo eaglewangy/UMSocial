@@ -50,7 +50,7 @@ typedef enum{
 @property (nonatomic, copy) NSString *wxDescription;
 
 /**
- 微信多媒体资源的分享
+ 微信多媒体资源的分享，详细定义见`WXApiObject.h`
  
  */
 @property (nonatomic, retain) id wxMediaObject;
@@ -112,11 +112,22 @@ typedef enum {
  */
 @property (nonatomic, copy) NSString *author;
 
+
+/**
+ 设置url资源类型和url地址
+ 
+ @param resourceType 多媒体资源类型，图片、音乐或者视频
+ @param urlString url字符串
+ 
+ */
+-(void)setResourceType:(UMSocialUrlResourceType)resourceType url:(NSString *)url;
+
 /**
  初始化对象，指定一种资源和资源URL
  
  @param resourceType 多媒体资源类型，图片、音乐或者视频
  @param urlString url字符串
+ 
  */
 -(id)initWithSnsResourceType:(UMSocialUrlResourceType)resourceType url:(NSString *)url;
 
@@ -204,6 +215,7 @@ typedef enum {
  */
 
 + (void)setAppKey:(NSString *)appKey;
+
 
 /**获取设置的友盟appKey
  
