@@ -45,9 +45,9 @@ extern NSString *const UMShareToEmail;
 extern NSString *const UMShareToSms;
 
 /**
- 微信
+ 微信,2.2.2之后分成UMShareToWechatSession（分享到微信好友）和UMShareToWechatTimeline（分享到微信朋友圈）两个
  */
-extern NSString *const UMShareToWechat;
+//extern NSString *const UMShareToWechat;
 
 /**
  微信好友
@@ -58,6 +58,11 @@ extern NSString *const UMShareToWechatSession;
  微信朋友圈
  */
 extern NSString *const UMShareToWechatTimeline;
+
+/**
+ 手机QQ
+ */
+extern NSString *const UMShareToQQ;
 
 /**
  Facebook
@@ -77,12 +82,17 @@ extern NSString *const UMShareToTwitter;
 typedef enum {
     UMSocialSnsTypeNone = 0,
     UMSocialSnsTypeQzone = 10,
-    UMSocialSnsTypeSina,                 //sina weibo
-    UMSocialSnsTypeTenc,                 //tencent weibo
-    UMSocialSnsTypeRenr,                 //renren
-    UMSocialSnsTypeDouban,               //douban
-    UMSocialSnsTypeEmail,
-    UMSocialSnsTypeSms
+    UMSocialSnsTypeSina = 11,                 //sina weibo
+    UMSocialSnsTypeTenc = 12,                 //tencent weibo
+    UMSocialSnsTypeRenr = 13,                 //renren
+    UMSocialSnsTypeDouban = 14,               //douban
+    UMSocialSnsTypeEmail = 15,
+    UMSocialSnsTypeSms = 16,
+    UMSocialSnsTypeWechatSession = 17,
+    UMSocialSnsTypeWechatTimeline = 18,
+    UMSocialSnsTypeMobileQQ = 19,
+    UMSocialSnsTypeFacebook = 20,
+    UMSocialSnsTypeTwitter = 21
 } UMSocialSnsType;
 
 

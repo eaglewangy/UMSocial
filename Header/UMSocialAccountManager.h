@@ -16,7 +16,7 @@
 
 
 /**
- 微博平台名称,例如"sina"、"tencent",定义在`UMSocialEnum.h`
+ 微博平台名称,例如"sina"、"tencent",定义在`UMSocialSnsPlatformManager.h`
  */
 @property (nonatomic, copy) NSString *platformName;
 
@@ -166,13 +166,6 @@ extern NSString *const UMSCustomAccountGenderFeMale;
  */
 +(void)postSnsAccount:(UMSocialAccountEntity *)snsAccount completion:(UMSocialDataServiceCompletion)completion;
 
-/**
- 获取友盟Appkey对应的各个平台的appkey和appsecret
- 
- @param completion 回调Block对象
- 
- */
-+(void)requestAppInfo:(UMSocialDataServiceCompletion)completion;
 
 /**
  添加自有账号到友盟的账号体系，一般是用户在使用自有账号登录之后，再利用此方法上传账号，然后利用我们评论和个人中心的接口就会显示自有账号的昵称和头像等信息
@@ -208,7 +201,7 @@ extern NSString *const UMSCustomAccountGenderFeMale;
 /**
  判断是否授权此sns平台。
  
- @param platformType sns平台名，定义在`UMSocialEnum.h`
+ @param platformType sns平台名，定义在`UMSocialSnsPlatformManager.h`
  */
 + (BOOL)isOauthWithPlatform:(NSString *)platformType;
 
